@@ -1,5 +1,5 @@
 export default {
-    id: 1,
+    id: 2,
     title: 'Introduction to Attention',
     category: 'fundamentals',
     date: '2026-04-22',

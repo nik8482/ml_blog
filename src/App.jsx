@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, ArrowUpRight, ArrowLeft, Circle } from 'lucide-react';
+import { blogPosts } from './posts';
 
 // ============ BACKGROUND: Animated Neural Network ============
 function NeuralBackground() {
@@ -246,8 +247,6 @@ export default function MLBlog() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedPost, setSelectedPost] = useState(null);
 
-  // Add your posts here
-  const blogPosts = [];
 
   const categories = [
     { id: 'all', name: 'all' },

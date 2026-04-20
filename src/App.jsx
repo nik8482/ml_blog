@@ -294,7 +294,7 @@ export default function MLBlog() {
     { id: 'inference', name: 'inference' },
     { id: 'safety', name: 'safety' },
     { id: 'projects', name: 'projects' },
-    { id: 'others', name: 'others' },
+    { id: 'other', name: 'other' },
   ];
 
   const filteredPosts = blogPosts.filter(post => {

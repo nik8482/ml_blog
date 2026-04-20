@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, ArrowUpRight, ArrowLeft, Circle } from 'lucide-react';
 import { blogPosts } from './posts';
+import katex from 'katex';
+import 'katex/dist/katex.min.css';
 
 // ============ BACKGROUND: Animated Neural Network ============
 function NeuralBackground() {
@@ -241,6 +243,40 @@ function CodeBlock({ code, lang = 'python' }) {
   );
 }
 
+// ============ INLINE CONTENT: math + bold + inline code ============
+function renderInline(text) {
+  const parts = [];
+  // Split on $...$ (math), **...** (bold), `...` (inline code)
+  const re = /(\$[^$]+\$|\*\*[^*]+\*\*|`[^`]+`)/g;
+  let last = 0;
+  let match;
+  let key = 0;
+  while ((match = re.exec(text)) !== null) {
+    if (match.index > last) parts.push(text.slice(last, match.index));
+    const token = match[0];
+    if (token.startsWith('$')) {
+      const latex = token.slice(1, -1);
+      try {
+        const html = katex.renderToString(latex, { throwOnError: false });
+        parts.push(<span key={key++} dangerouslySetInnerHTML={{ __html: html }} />);
+      } catch {
+        parts.push(token);
+      }
+    } else if (token.startsWith('**')) {
+      parts.push(<strong key={key++}>{token.slice(2, -2)}</strong>);
+    } else if (token.startsWith('`')) {
+      parts.push(
+        <code key={key++} style={{ background: 'rgba(140,210,255,0.1)', padding: '1px 5px', borderRadius: '3px', fontFamily: 'JetBrains Mono, monospace', fontSize: '0.9em' }}>
+          {token.slice(1, -1)}
+        </code>
+      );
+    }
+    last = match.index + token.length;
+  }
+  if (last < text.length) parts.push(text.slice(last));
+  return parts;
+}
+
 // ============ MAIN COMPONENT ============
 export default function MLBlog() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -305,13 +341,13 @@ export default function MLBlog() {
         if (line.startsWith('## ')) {
           elements.push(
             <h2 key={i} style={{ fontFamily: 'IBM Plex Serif, serif', fontSize: '24px', marginTop: '2.5rem', marginBottom: '1rem', color: '#e8f0f8' }}>
-              {line.replace('## ', '')}
+              {renderInline(line.replace(/^## /, ''))}
             </h2>
           );
         } else if (line.startsWith('- ')) {
           elements.push(
             <li key={i} style={{ fontSize: '16px', lineHeight: 1.75, color: '#c5d8ea', marginLeft: '1.5rem', marginBottom: '0.5rem' }}>
-              {line.replace('- ', '')}
+              {renderInline(line.replace(/^-\s+/, ''))}
             </li>
           );
         } else if (line.trim() === '') {
@@ -319,7 +355,7 @@ export default function MLBlog() {
         } else {
           elements.push(
             <p key={i} style={{ fontSize: '16px', lineHeight: 1.75, color: '#c5d8ea', marginBottom: '1rem' }}>
-              {line}
+              {renderInline(line)}
             </p>
           );
         }

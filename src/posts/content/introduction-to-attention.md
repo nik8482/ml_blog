@@ -15,7 +15,7 @@ Each token in a given sentence has three different vectors which allow us to cal
 
 Once we have those vectors, we can calculate the final "Context Vector" of a selected token $T_i$:
 - Take the query vector for $T_i$ and take the dot product of the Key vectors of itself and the tokens preceding it to get attention scores
--  Normalise the scores by dividing each attention score by $sqrt(D_k)$ where $D_k$ is the dimension of the key vectors
+-  Normalise the scores by dividing each attention score by $\sqrt{D_k}$ where $D_k$ is the dimension of the key vectors
 - Take the weighted sum of all value vectors with the associated attention score to produce a context vector for $T_i$
 
 

@@ -292,9 +292,8 @@ export default function MLBlog() {
     { id: 'all', name: 'all' },
     { id: 'fundamentals', name: 'fundamentals' },
     { id: 'inference', name: 'inference' },
-    { id: 'transformers', name: 'transformers' },
     { id: 'safety', name: 'safety' },
-    { id: 'rl', name: 'rl' },
+    { id: 'projects', name: 'projects' },
     { id: 'others', name: 'others' },
   ];
 

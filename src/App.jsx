@@ -11,17 +11,12 @@ function NeuralBackground() {
     const ctx = canvas.getContext('2d');
     let raf;
     let w, h;
+    let isMobile = window.innerWidth < 768;
+    // Cap dpr on mobile — phones often report 3x which triples GPU load
+    const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
 
-    const resize = () => {
-      w = canvas.width = window.innerWidth * window.devicePixelRatio;
-      h = canvas.height = window.innerHeight * window.devicePixelRatio;
-      canvas.style.width = window.innerWidth + 'px';
-      canvas.style.height = window.innerHeight + 'px';
-    };
-    resize();
-    window.addEventListener('resize', resize);
-
-    const layers = [5, 8, 8, 4];
+    // Fewer, chunkier nodes on mobile. Portrait-friendly shape.
+    const layers = isMobile ? [3, 5, 5, 3] : [5, 8, 8, 4];
     const nodes = [];
     layers.forEach((count, layerIdx) => {
       const layerNodes = [];
@@ -30,15 +25,35 @@ function NeuralBackground() {
           layer: layerIdx,
           idx: i,
           count,
-          pulse: Math.random(),
           phase: Math.random() * Math.PI * 2,
         });
       }
       nodes.push(layerNodes);
     });
 
+    const resize = () => {
+      isMobile = window.innerWidth < 768;
+      // Use documentElement.clientHeight instead of innerHeight — doesn't change
+      // when mobile URL bar shows/hides, which prevents constant re-layout.
+      const cssW = window.innerWidth;
+      const cssH = document.documentElement.clientHeight;
+      w = canvas.width = cssW * dpr;
+      h = canvas.height = cssH * dpr;
+      canvas.style.width = cssW + 'px';
+      canvas.style.height = cssH + 'px';
+    };
+    resize();
+
+    // Debounce resize so it only fires after the user's done resizing
+    let resizeTimer;
+    const onResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(resize, 150);
+    };
+    window.addEventListener('resize', onResize);
+
     const getPos = (node) => {
-      const marginX = w * 0.15;
+      const marginX = w * (isMobile ? 0.08 : 0.15);
       const usableW = w - marginX * 2;
       const x = marginX + (usableW / (layers.length - 1)) * node.layer;
       const spacing = h / (node.count + 1);
@@ -46,9 +61,21 @@ function NeuralBackground() {
       return { x, y };
     };
 
+    // Pause rendering when the tab isn't visible (saves battery, stops jank on resume)
+    let visible = !document.hidden;
+    const onVisibility = () => {
+      visible = !document.hidden;
+      if (visible && !raf) loop();
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+
     let t = 0;
     const loop = () => {
-      t += 0.008;
+      if (!visible) {
+        raf = null;
+        return;
+      }
+      t += 0.004;
       ctx.clearRect(0, 0, w, h);
 
       for (let l = 0; l < nodes.length - 1; l++) {
@@ -59,19 +86,19 @@ function NeuralBackground() {
             const activation = (Math.sin(t * 2 + a.phase + b.phase) + 1) / 2;
             const alpha = 0.04 + activation * 0.12;
             ctx.strokeStyle = `rgba(120, 200, 255, ${alpha})`;
-            ctx.lineWidth = 1 * window.devicePixelRatio;
+            ctx.lineWidth = 1 * dpr;
             ctx.beginPath();
             ctx.moveTo(pa.x, pa.y);
             ctx.lineTo(pb.x, pb.y);
             ctx.stroke();
 
-            const travel = (t * 0.5 + a.phase * 0.1) % 1;
+            const travel = (t * 0.3 + a.phase * 0.1) % 1;
             if (activation > 0.7) {
               const px = pa.x + (pb.x - pa.x) * travel;
               const py = pa.y + (pb.y - pa.y) * travel;
               ctx.fillStyle = `rgba(180, 230, 255, ${0.6 * activation})`;
               ctx.beginPath();
-              ctx.arc(px, py, 2 * window.devicePixelRatio, 0, Math.PI * 2);
+              ctx.arc(px, py, 2 * dpr, 0, Math.PI * 2);
               ctx.fill();
             }
           }
@@ -82,19 +109,22 @@ function NeuralBackground() {
         for (const node of layer) {
           const { x, y } = getPos(node);
           const pulse = (Math.sin(t * 1.5 + node.phase) + 1) / 2;
-          const r = (3 + pulse * 2) * window.devicePixelRatio;
+          const r = (3 + pulse * 2) * dpr;
           ctx.fillStyle = `rgba(140, 210, 255, ${0.35 + pulse * 0.35})`;
           ctx.beginPath();
           ctx.arc(x, y, r, 0, Math.PI * 2);
           ctx.fill();
 
-          const grad = ctx.createRadialGradient(x, y, 0, x, y, r * 6);
-          grad.addColorStop(0, `rgba(140, 210, 255, ${0.15 * pulse})`);
-          grad.addColorStop(1, 'rgba(140, 210, 255, 0)');
-          ctx.fillStyle = grad;
-          ctx.beginPath();
-          ctx.arc(x, y, r * 6, 0, Math.PI * 2);
-          ctx.fill();
+          // Skip the expensive radial gradient glow on mobile
+          if (!isMobile) {
+            const grad = ctx.createRadialGradient(x, y, 0, x, y, r * 6);
+            grad.addColorStop(0, `rgba(140, 210, 255, ${0.15 * pulse})`);
+            grad.addColorStop(1, 'rgba(140, 210, 255, 0)');
+            ctx.fillStyle = grad;
+            ctx.beginPath();
+            ctx.arc(x, y, r * 6, 0, Math.PI * 2);
+            ctx.fill();
+          }
         }
       }
 
@@ -103,8 +133,10 @@ function NeuralBackground() {
     loop();
 
     return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener('resize', resize);
+      if (raf) cancelAnimationFrame(raf);
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', onResize);
+      document.removeEventListener('visibilitychange', onVisibility);
     };
   }, []);
 

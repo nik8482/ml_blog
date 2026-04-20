@@ -247,6 +247,10 @@ export default function MLBlog() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedPost, setSelectedPost] = useState(null);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [selectedPost]);
+
 
   const categories = [
     { id: 'all', name: 'all' },

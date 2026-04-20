@@ -2,7 +2,7 @@ export default {
   id: 1,
   title: 'Why Softmax Is Actually Weird',
   category: 'fundamentals',
-  date: '2026-04-22',
+  date: '2026-04-20',
   excerpt: 'Everyone uses it, nobody questions it. The softmax function is quietly one of the strangest decisions in deep learning.',
   readTime: '6 min',
   difficulty: 'beginner',

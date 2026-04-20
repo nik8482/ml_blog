@@ -49,9 +49,18 @@ def attention(Q, K, V):
 ```
 
 
-Multi-Head Attention
-Why one attention mechanism isn't enough, and what we gain from running several in parallel
-Why "Attention Is All You Need"
-How the 2017 Vaswani et al. paper changed everything by ditching recurrence entirely
-Where Attention Shows Up in Modern LLMs
-From BERT to GPT — attention as the backbone of today's models
+## Multi-Head Attention
+If a single attention mechanism is like looking at a sentence through a magnifying glass, Multi-Head Attention is like having a team of experts looking at that same sentence from different angles simultaneously.
+
+Instead of performing a single attention function, we split our Query, Key, and Value vectors into multiple "heads." Each head has its own set of learnable weight matrices ($W^Q, W^K, W^V$). This allows the model to capture different types of relationships at once:
+
+- Head 1 might focus on grammar and syntax (e.g., matching a verb to its subject)
+- Head 2 might focus on semantic meaning (e.g., linking a pronoun like "it" back to "the car")
+- Head 3 might focus on long-range context or specific factual associations.
+
+Once each head has calculated its own context vector, we concatenate them back together and pass them through a final linear layer. This ensures the model doesn't just get a "blurry" average of the sentence, but a rich, multi-dimensional representation of how every token interacts with every other token.
+
+## Round up
+The transition from the linear bottleneck of RNNs to the parallelised power of Multi-Head Attention triggered the Transformer revolution. By weighing word importance regardless of distance, this mechanism solved long-term dependencies and enabled massive scaling. 
+
+Today’s SOTA models—from GPT-4 to Gemini—are essentially deep stacks of these attention heads, turning a clever mathematical concept into the sophisticated reasoning we see in modern AI.

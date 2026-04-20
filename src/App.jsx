@@ -92,10 +92,15 @@ function NeuralBackground() {
             ctx.lineTo(pb.x, pb.y);
             ctx.stroke();
 
-            const travel = (t * 0.3 + a.phase * 0.1) % 1;
+            const dx = pb.x - pa.x;
+            const dy = pb.y - pa.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            // Speed in pixels per time unit — constant regardless of line length
+            const pxPerUnit = 220 * dpr;
+            const travel = ((t * pxPerUnit + a.phase * 50) % dist) / dist;
             if (activation > 0.7) {
-              const px = pa.x + (pb.x - pa.x) * travel;
-              const py = pa.y + (pb.y - pa.y) * travel;
+              const px = pa.x + dx * travel;
+              const py = pa.y + dy * travel;
               ctx.fillStyle = `rgba(180, 230, 255, ${0.6 * activation})`;
               ctx.beginPath();
               ctx.arc(px, py, 2 * dpr, 0, Math.PI * 2);

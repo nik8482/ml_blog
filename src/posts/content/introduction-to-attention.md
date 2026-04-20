@@ -20,7 +20,7 @@ Once we have those vectors, we can calculate the final "Context Vector" of a sel
 
 Python snippet below for the mechanism
 
-\`\`\`python
+```python
 import numpy as np
 
 def attention(Q, K, V): 
@@ -46,7 +46,7 @@ def attention(Q, K, V):
     # Step 5: weighted sum of value vectors
     context = weights @ V # (seq_len, d_v)
     return context, weights 
-\`\`\`
+```
 
 
 Multi-Head Attention

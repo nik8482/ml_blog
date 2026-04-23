@@ -323,6 +323,41 @@ export default function MLBlog() {
       const lines = post.content.split('\n');
       const elements = [];
       let codeBlock = null;
+      let tableRows = null;
+
+      const flushTable = (key) => {
+        if (!tableRows) return;
+        const [header, , ...body] = tableRows;
+        const parseCells = (row) => row.split('|').map(c => c.trim()).filter((_, idx, arr) => idx > 0 && idx < arr.length - 1);
+        elements.push(
+          <div key={key} style={{ overflowX: 'auto', marginBottom: '1.5rem' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'JetBrains Mono, monospace', fontSize: '14px' }}>
+              <thead>
+                <tr>
+                  {parseCells(header).map((cell, ci) => (
+                    <th key={ci} style={{ padding: '8px 16px', textAlign: 'left', color: '#7fd1ff', borderBottom: '1px solid rgba(140,210,255,0.25)', whiteSpace: 'nowrap' }}>
+                      {renderInline(cell)}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {body.map((row, ri) => (
+                  <tr key={ri} style={{ background: ri % 2 === 0 ? 'rgba(140,210,255,0.03)' : 'transparent' }}>
+                    {parseCells(row).map((cell, ci) => (
+                      <td key={ci} style={{ padding: '8px 16px', color: '#c5d8ea', borderBottom: '1px solid rgba(140,210,255,0.1)' }}>
+                        {renderInline(cell)}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+        tableRows = null;
+      };
+
       lines.forEach((line, i) => {
         if (line.startsWith('```')) {
           if (codeBlock === null) {
@@ -336,6 +371,13 @@ export default function MLBlog() {
         if (codeBlock) {
           codeBlock.lines.push(line);
           return;
+        }
+        if (line.trim().startsWith('|')) {
+          if (!tableRows) tableRows = [];
+          tableRows.push(line);
+          return;
+        } else {
+          flushTable(`table-${i}`);
         }
         if (line.startsWith('## ')) {
           elements.push(
@@ -359,6 +401,7 @@ export default function MLBlog() {
           );
         }
       });
+      flushTable('table-end');
       return <>{elements}</>;
     };
 

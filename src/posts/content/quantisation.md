@@ -35,4 +35,4 @@ There are several different weight precisions to choose from:
 | INT2        | 0.25Byte        | Significant        |
 
 ## KV Cache Quantisation
-
+Separate from weight quantisation you can also quantise the KV cache itself. Each K and V vector stored as INT8 instead of FP16. This effectively halves the KV cache memory which means we can have more concurrent requests and a higher throughput. The accuracy impact is also minimal because our attention mechanism is relatively robust to KV precision values.

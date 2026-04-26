@@ -194,13 +194,13 @@ export default function MLBlog() {
         } else { flushTable(`table-${i}`); }
         if (line.startsWith('## ')) {
           elements.push(
-            <h2 key={i} style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontSize: '22px', fontWeight: 700, marginTop: '2.5rem', marginBottom: '0.75rem', color: '#1a1a1a' }}>
+            <h2 key={i} style={{ fontFamily: "'Courier Prime', 'Courier New', Courier, monospace", fontSize: '20px', fontWeight: 700, marginTop: '2.5rem', marginBottom: '0.75rem', color: '#1a1a1a' }}>
               {renderInline(line.replace(/^## /, ''))}
             </h2>
           );
         } else if (line.startsWith('- ')) {
           elements.push(
-            <li key={i} style={{ fontSize: '17px', lineHeight: 1.75, color: '#374151', marginLeft: '1.5rem', marginBottom: '0.4rem' }}>
+            <li key={i} style={{ fontSize: '16px', lineHeight: 1.8, color: '#374151', marginLeft: '1.5rem', marginBottom: '0.4rem', fontFamily: "'Courier Prime', 'Courier New', Courier, monospace" }}>
               {renderInline(line.replace(/^-\s+/, ''))}
             </li>
           );
@@ -208,7 +208,7 @@ export default function MLBlog() {
           return;
         } else {
           elements.push(
-            <p key={i} style={{ fontSize: '17px', lineHeight: 1.75, color: '#374151', marginBottom: '1.1rem' }}>
+            <p key={i} style={{ fontSize: '16px', lineHeight: 1.8, color: '#374151', marginBottom: '1.1rem', fontFamily: "'Courier Prime', 'Courier New', Courier, monospace" }}>
               {renderInline(line)}
             </p>
           );
@@ -219,9 +219,9 @@ export default function MLBlog() {
     };
 
     return (
-      <div style={{ minHeight: '100vh', background: '#fafaf8', color: '#1a1a1a' }}>
+      <div style={{ minHeight: '100vh', background: '#fafaf8', color: '#1a1a1a', fontFamily: "'Courier Prime', 'Courier New', Courier, monospace" }}>
         <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
           * { box-sizing: border-box; }
           a { color: #1a1a1a; }
         `}</style>
@@ -240,7 +240,7 @@ export default function MLBlog() {
               {post.readTime && <span> · {post.readTime}</span>}
               {post.difficulty && <span style={{ color: difficultyColor[post.difficulty] }}> · {post.difficulty}</span>}
             </div>
-            <h1 style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontSize: 'clamp(28px, 5vw, 40px)', fontWeight: 700, lineHeight: 1.2, margin: '0 0 1rem', color: '#1a1a1a' }}>
+            <h1 style={{ fontFamily: 'inherit', fontSize: 'clamp(24px, 4vw, 36px)', fontWeight: 700, lineHeight: 1.25, margin: '0 0 1rem', color: '#1a1a1a' }}>
               {post.title}
             </h1>
             {post.paper && (
@@ -269,35 +269,47 @@ export default function MLBlog() {
   return (
     <div style={{ minHeight: '100vh', background: '#fafaf8', color: '#1a1a1a' }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
         * { box-sizing: border-box; }
-        body { margin: 0; }
-        .post-link:hover { text-decoration: underline; }
+        body { margin: 0; font-family: 'Courier Prime', 'Courier New', Courier, monospace; }
+        .post-link:hover .post-title { text-decoration: underline; }
         .nav-link { background: none; border: none; cursor: pointer; font-size: 15px; color: #1a1a1a; padding: 0; font-family: inherit; }
         .nav-link:hover { text-decoration: underline; }
         .nav-link.active { text-decoration: underline; }
         input::placeholder { color: #9ca3af; }
-        input:focus { outline: none; border-color: #9ca3af !important; }
+        input:focus { outline: none; }
+        a { color: #1a1a1a; }
       `}</style>
 
-      <div style={{ maxWidth: '680px', margin: '0 auto', padding: '4rem 1.5rem 6rem' }}>
+      <div style={{ maxWidth: '700px', margin: '0 auto', padding: '4rem 1.5rem 6rem', fontFamily: "'Courier Prime', 'Courier New', Courier, monospace" }}>
 
         {/* HEADER */}
-        <header style={{ marginBottom: '2.5rem' }}>
-          <h1 style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontSize: '32px', fontWeight: 700, margin: '0 0 0.5rem', letterSpacing: '-0.01em' }}>
-            Nikhil Modha
-          </h1>
-          <nav style={{ display: 'flex', gap: '0', alignItems: 'center', fontSize: '15px', flexWrap: 'wrap' }}>
-            <a href="mailto:nikhil.modha21@gmail.com" style={{ color: '#1a1a1a' }}>email</a>
-            <span style={{ color: '#9ca3af', margin: '0 0.6rem' }}>|</span>
-            <a href="https://github.com/nik8482" target="_blank" rel="noopener noreferrer" style={{ color: '#1a1a1a' }}>github</a>
-            <span style={{ color: '#9ca3af', margin: '0 0.6rem' }}>|</span>
-            <a href="https://www.linkedin.com/in/nikhil-modha-7aa604119/" target="_blank" rel="noopener noreferrer" style={{ color: '#1a1a1a' }}>linkedin</a>
-          </nav>
+        <header style={{ marginBottom: '2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '2rem' }}>
+          <div>
+            <h1 style={{ fontSize: '30px', fontWeight: 700, margin: '0 0 0.5rem', letterSpacing: '0', fontFamily: 'inherit' }}>
+              Nikhil Modha
+            </h1>
+            <nav style={{ display: 'flex', alignItems: 'center', fontSize: '15px', flexWrap: 'wrap' }}>
+              <a href="mailto:nikhil.modha21@gmail.com">email</a>
+              <span style={{ color: '#9ca3af', margin: '0 0.5rem' }}>|</span>
+              <a href="https://github.com/nik8482" target="_blank" rel="noopener noreferrer">github</a>
+              <span style={{ color: '#9ca3af', margin: '0 0.5rem' }}>|</span>
+              <a href="https://www.linkedin.com/in/nikhil-modha-7aa604119/" target="_blank" rel="noopener noreferrer">linkedin</a>
+            </nav>
+          </div>
+          {/* Avatar placeholder — swap src for a real photo when ready */}
+          <div style={{
+            width: '90px', height: '90px', borderRadius: '50%', flexShrink: 0,
+            background: '#e5e7eb', border: '2px solid #1a1a1a',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '22px', fontWeight: 700, color: '#6b7280', letterSpacing: '0.05em',
+          }}>
+            NM
+          </div>
         </header>
 
         {/* BIO */}
-        <p style={{ fontSize: '16px', lineHeight: 1.7, color: '#374151', marginBottom: '2.5rem', maxWidth: '560px' }}>
+        <p style={{ fontSize: '15px', lineHeight: 1.7, color: '#374151', marginBottom: '2.5rem', maxWidth: '560px', fontFamily: 'inherit' }}>
           ML engineer writing about machine learning from first principles — inference, fundamentals, safety, and the occasional detour.
         </p>
 
@@ -364,7 +376,7 @@ export default function MLBlog() {
                     <span style={{ fontFamily: '"JetBrains Mono", monospace', fontSize: '13px', color: '#9ca3af', flexShrink: 0 }}>
                       {formatDate(post.date)}
                     </span>
-                    <span style={{ borderBottom: '1px solid #1a1a1a' }}>{post.title}</span>
+                    <span className="post-title" style={{ borderBottom: '1px solid #1a1a1a' }}>{post.title}</span>
                     {post.difficulty && (
                       <span style={{ fontSize: '12px', color: difficultyColor[post.difficulty], fontFamily: '"JetBrains Mono", monospace', flexShrink: 0 }}>
                         {post.difficulty}

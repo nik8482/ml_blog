@@ -102,6 +102,120 @@ function renderInline(text) {
   return parts;
 }
 
+// ============ CHERRY BLOSSOM SIDE DECORATION ============
+function SideDecor() {
+  const branch = '#6b4c3b';
+  const petal = '#f2afc3';
+  const petalDark = '#e090ab';
+
+  const Blossom = ({ cx, cy, r = 5 }) => (
+    <>
+      <circle cx={cx} cy={cy} r={r} fill={petal} />
+      <circle cx={cx + r * 0.6} cy={cy - r * 0.6} r={r * 0.7} fill={petalDark} />
+      <circle cx={cx - r * 0.5} cy={cy - r * 0.8} r={r * 0.6} fill={petal} />
+    </>
+  );
+
+  return (
+    <>
+      <style>{`@media (max-width: 1100px) { .side-decor { display: none !important; } }`}</style>
+
+      {/* LEFT — cherry blossom tree */}
+      <svg
+        className="side-decor"
+        style={{ position: 'fixed', left: 0, bottom: 0, width: '220px', height: '85vh', pointerEvents: 'none', opacity: 0.38, zIndex: 0 }}
+        viewBox="0 0 220 600"
+        preserveAspectRatio="xMinYMax meet"
+      >
+        {/* trunk */}
+        <path d="M 105 600 Q 102 500 100 400 Q 98 310 96 230 Q 94 170 92 130" stroke={branch} strokeWidth="11" fill="none" strokeLinecap="round" />
+        {/* trunk texture */}
+        <path d="M 103 500 Q 100 420 98 360" stroke={branch} strokeWidth="4" fill="none" strokeLinecap="round" strokeOpacity="0.4" />
+
+        {/* branch right-low */}
+        <path d="M 101 390 Q 135 368 162 345 Q 188 325 205 300" stroke={branch} strokeWidth="5.5" fill="none" strokeLinecap="round" />
+        <path d="M 178 330 Q 198 308 212 285" stroke={branch} strokeWidth="3" fill="none" strokeLinecap="round" />
+
+        {/* branch left-mid */}
+        <path d="M 98 320 Q 68 295 42 272 Q 20 252 4 228" stroke={branch} strokeWidth="5" fill="none" strokeLinecap="round" />
+        <path d="M 30 260 Q 14 240 2 218" stroke={branch} strokeWidth="3" fill="none" strokeLinecap="round" />
+
+        {/* branch right-upper */}
+        <path d="M 95 225 Q 128 195 158 165 Q 183 142 208 115" stroke={branch} strokeWidth="4.5" fill="none" strokeLinecap="round" />
+        <path d="M 178 148 Q 198 122 215 98" stroke={branch} strokeWidth="2.5" fill="none" strokeLinecap="round" />
+
+        {/* branch up-center */}
+        <path d="M 93 190 Q 98 148 108 108 Q 116 74 118 44" stroke={branch} strokeWidth="4" fill="none" strokeLinecap="round" />
+        <path d="M 113 85 Q 128 58 144 38" stroke={branch} strokeWidth="2.5" fill="none" strokeLinecap="round" />
+
+        {/* branch left-upper */}
+        <path d="M 93 208 Q 62 178 36 148 Q 16 124 2 98" stroke={branch} strokeWidth="4" fill="none" strokeLinecap="round" />
+        <path d="M 20 124 Q 8 103 -2 80" stroke={branch} strokeWidth="2.5" fill="none" strokeLinecap="round" />
+
+        {/* blossoms — branch right-low tip */}
+        <Blossom cx={205} cy={300} r={6} />
+        <Blossom cx={216} cy={288} r={5} />
+        <Blossom cx={198} cy={285} r={4.5} />
+        <Blossom cx={212} cy={275} r={5} />
+
+        {/* blossoms — branch left-mid tip */}
+        <Blossom cx={4} cy={228} r={6} />
+        <Blossom cx={14} cy={216} r={5} />
+        <Blossom cx={-2} cy={216} r={4.5} />
+        <Blossom cx={10} cy={228} r={4} />
+
+        {/* blossoms — branch right-upper tip */}
+        <Blossom cx={210} cy={114} r={5.5} />
+        <Blossom cx={220} cy={102} r={4.5} />
+        <Blossom cx={205} cy={100} r={4} />
+        <Blossom cx={218} cy={118} r={4} />
+
+        {/* blossoms — branch up-center tip */}
+        <Blossom cx={118} cy={44} r={6} />
+        <Blossom cx={128} cy={33} r={5} />
+        <Blossom cx={140} cy={36} r={4.5} />
+        <Blossom cx={145} cy={24} r={4} />
+        <Blossom cx={112} cy={32} r={4} />
+
+        {/* blossoms — branch left-upper tip */}
+        <Blossom cx={0} cy={96} r={5.5} />
+        <Blossom cx={10} cy={83} r={5} />
+        <Blossom cx={-4} cy={82} r={4} />
+        <Blossom cx={8} cy={96} r={4} />
+
+        {/* scattered mid-branch blossoms */}
+        <Blossom cx={155} cy={172} r={4} />
+        <Blossom cx={148} cy={180} r={3.5} />
+        <Blossom cx={32} cy={154} r={4} />
+        <Blossom cx={22} cy={144} r={3.5} />
+      </svg>
+
+      {/* RIGHT — drifting petals */}
+      <svg
+        className="side-decor"
+        style={{ position: 'fixed', right: 0, top: 0, width: '160px', height: '100vh', pointerEvents: 'none', opacity: 0.3, zIndex: 0 }}
+        viewBox="0 0 160 900"
+      >
+        {[
+          { cx: 35,  cy: 70,  rx: 9, ry: 4.5, rot: 25  },
+          { cx: 120, cy: 150, rx: 8, ry: 4,   rot: -18 },
+          { cx: 60,  cy: 240, rx: 9, ry: 4.5, rot: 42  },
+          { cx: 140, cy: 310, rx: 7, ry: 3.5, rot: -30 },
+          { cx: 25,  cy: 400, rx: 8, ry: 4,   rot: 15  },
+          { cx: 100, cy: 470, rx: 9, ry: 4.5, rot: -45 },
+          { cx: 50,  cy: 560, rx: 7, ry: 3.5, rot: 33  },
+          { cx: 130, cy: 630, rx: 8, ry: 4,   rot: -12 },
+          { cx: 75,  cy: 720, rx: 9, ry: 4.5, rot: 50  },
+          { cx: 30,  cy: 810, rx: 7, ry: 3.5, rot: -28 },
+          { cx: 148, cy: 870, rx: 8, ry: 4,   rot: 20  },
+        ].map((p, i) => (
+          <ellipse key={i} cx={p.cx} cy={p.cy} rx={p.rx} ry={p.ry} fill={i % 3 === 0 ? petalDark : petal} transform={`rotate(${p.rot},${p.cx},${p.cy})`} />
+        ))}
+      </svg>
+    </>
+  );
+}
+
 // ============ MAIN COMPONENT ============
 export default function MLBlog() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -225,6 +339,7 @@ export default function MLBlog() {
           * { box-sizing: border-box; }
           a { color: #1a1a1a; }
         `}</style>
+        <SideDecor />
         <div style={{ maxWidth: '680px', margin: '0 auto', padding: '3rem 1.5rem 6rem' }}>
           <button
             onClick={() => setSelectedPost(null)}
@@ -268,6 +383,7 @@ export default function MLBlog() {
   // ==================== INDEX VIEW ====================
   return (
     <div style={{ minHeight: '100vh', background: '#fafaf8', color: '#1a1a1a' }}>
+      <SideDecor />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
         * { box-sizing: border-box; }

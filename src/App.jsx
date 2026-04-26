@@ -400,32 +400,32 @@ export default function MLBlog() {
       <div style={{ maxWidth: '700px', margin: '0 auto', padding: '4rem 1.5rem 6rem', fontFamily: "'Courier Prime', 'Courier New', Courier, monospace" }}>
 
         {/* HEADER */}
-        <header style={{ marginBottom: '2.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '2rem' }}>
-          <div>
-            <h1 style={{ fontSize: '30px', fontWeight: 700, margin: '0 0 0.5rem', letterSpacing: '0', fontFamily: 'inherit' }}>
+        <header style={{ marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+            {/* Avatar placeholder — swap for <img> when you have a real photo */}
+            <div style={{
+              width: '52px', height: '52px', borderRadius: '50%', flexShrink: 0,
+              background: '#e5e7eb', border: '1.5px solid #9ca3af',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '13px', fontWeight: 700, color: '#6b7280', letterSpacing: '0.05em',
+            }}>
+              NM
+            </div>
+            <h1 style={{ fontSize: '28px', fontWeight: 700, margin: 0, fontFamily: 'inherit' }}>
               Nikhil Modha
             </h1>
-            <nav style={{ display: 'flex', alignItems: 'center', fontSize: '15px', flexWrap: 'wrap' }}>
-              <a href="mailto:nikhil.modha21@gmail.com">email</a>
-              <span style={{ color: '#9ca3af', margin: '0 0.5rem' }}>|</span>
-              <a href="https://github.com/nik8482" target="_blank" rel="noopener noreferrer">github</a>
-              <span style={{ color: '#9ca3af', margin: '0 0.5rem' }}>|</span>
-              <a href="https://www.linkedin.com/in/nikhil-modha-7aa604119/" target="_blank" rel="noopener noreferrer">linkedin</a>
-            </nav>
           </div>
-          {/* Avatar placeholder — swap src for a real photo when ready */}
-          <div style={{
-            width: '90px', height: '90px', borderRadius: '50%', flexShrink: 0,
-            background: '#e5e7eb', border: '2px solid #1a1a1a',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: '22px', fontWeight: 700, color: '#6b7280', letterSpacing: '0.05em',
-          }}>
-            NM
-          </div>
+          <nav style={{ display: 'flex', alignItems: 'center', fontSize: '15px', flexWrap: 'wrap' }}>
+            <a href="mailto:nikhil.modha21@gmail.com">email</a>
+            <span style={{ color: '#9ca3af', margin: '0 0.5rem' }}>|</span>
+            <a href="https://github.com/nik8482" target="_blank" rel="noopener noreferrer">github</a>
+            <span style={{ color: '#9ca3af', margin: '0 0.5rem' }}>|</span>
+            <a href="https://www.linkedin.com/in/nikhil-modha-7aa604119/" target="_blank" rel="noopener noreferrer">linkedin</a>
+          </nav>
         </header>
 
         {/* BIO */}
-        <p style={{ fontSize: '15px', lineHeight: 1.7, color: '#374151', marginBottom: '2.5rem', maxWidth: '560px', fontFamily: 'inherit' }}>
+        <p style={{ fontSize: '15px', lineHeight: 1.7, color: '#374151', marginBottom: '1.75rem', fontFamily: 'inherit' }}>
           ML engineer writing about machine learning from first principles — inference, fundamentals, safety, and the occasional detour.
         </p>
 

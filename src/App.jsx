@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { blogPosts } from './posts';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
+import profilePhoto from './assets/profile.jpeg';
 
 // ============ CODE BLOCK ============
 function CodeBlock({ code, lang = 'python' }) {
@@ -388,9 +389,9 @@ export default function MLBlog() {
         <header style={{ marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
             <img
-              src="/src/assets/profile.jpeg"
+              src={profilePhoto}
               alt="Nikhil Modha"
-              style={{ width: '52px', height: '52px', borderRadius: '50%', flexShrink: 0, objectFit: 'cover', border: '1.5px solid #9ca3af' }}
+              style={{ width: '52px', height: '52px', borderRadius: '4px', flexShrink: 0, objectFit: 'cover', border: '1.5px solid #9ca3af' }}
             />
             <h1 style={{ fontSize: '28px', fontWeight: 700, margin: 0, fontFamily: 'inherit' }}>
               Nikhil Modha

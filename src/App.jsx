@@ -295,7 +295,12 @@ export default function MLBlog() {
           tableRows.push(line);
           return;
         } else { flushTable(`table-${i}`); }
-        if (line.startsWith('## ')) {
+        const imgMatch = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+        if (imgMatch) {
+          elements.push(
+            <img key={i} src={imgMatch[2]} alt={imgMatch[1]} style={{ maxWidth: '100%', margin: '1.5rem 0', display: 'block', borderRadius: '4px' }} />
+          );
+        } else if (line.startsWith('## ')) {
           elements.push(
             <h2 key={i} style={{ fontFamily: "'Courier Prime', 'Courier New', Courier, monospace", fontSize: '20px', fontWeight: 700, marginTop: '2.5rem', marginBottom: '0.75rem', color: '#1a1a1a' }}>
               {renderInline(line.replace(/^## /, ''))}

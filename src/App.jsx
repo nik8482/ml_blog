@@ -295,10 +295,14 @@ export default function MLBlog() {
           tableRows.push(line);
           return;
         } else { flushTable(`table-${i}`); }
-        const imgMatch = line.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+        const imgMatch = line.match(/^!\[([^\]]*)\]\(([^)"]+?)(?:\s+"([^"]+)")?\)$/);
         if (imgMatch) {
+          const [, alt, src, caption] = imgMatch;
           elements.push(
-            <img key={i} src={imgMatch[2]} alt={imgMatch[1]} style={{ maxWidth: '100%', margin: '1.5rem 0', display: 'block', borderRadius: '4px' }} />
+            <figure key={i} style={{ margin: '1.5rem 0', padding: 0 }}>
+              <img src={src} alt={alt} style={{ maxWidth: '100%', display: 'block', borderRadius: '4px' }} />
+              {caption && <figcaption style={{ fontSize: '13px', color: '#9ca3af', marginTop: '0.5rem', fontFamily: '"JetBrains Mono", monospace' }}>{caption}</figcaption>}
+            </figure>
           );
         } else if (line.startsWith('## ')) {
           elements.push(

@@ -7,7 +7,7 @@ export default {
   date: '2026-05-31',
   excerpt: '',
   readTime: '',
-  content: `![thunderstorm](${thunderstorm})
+  content: `![thunderstorm](${thunderstorm} "Oil painting of a thunderstorm brewing")
 
 Write your content here.`,
 };

@@ -219,26 +219,14 @@ function SideDecor() {
 // ============ MAIN COMPONENT ============
 export default function MLBlog() {
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => { window.scrollTo(0, 0); }, [selectedPost]);
 
-  const categories = [
-    { id: 'all', name: 'all' },
-    { id: 'fundamentals', name: 'fundamentals' },
-    { id: 'inference', name: 'inference' },
-    { id: 'safety', name: 'safety' },
-    { id: 'projects', name: 'projects' },
-    { id: 'other', name: 'other' },
-  ];
-
-  const filteredPosts = blogPosts.filter(post => {
-    const matchesCategory = selectedCategory === 'all' || post.category === selectedCategory;
-    const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
+  const filteredPosts = blogPosts.filter(post =>
+    post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    post.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const formatDate = (s) => {
     const d = new Date(s);
@@ -337,7 +325,7 @@ export default function MLBlog() {
         <style>{`
           @import url('https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
           * { box-sizing: border-box; }
-          a { color: #1a1a1a; }
+          a { color: #1a1a1a; text-decoration-skip-ink: none; }
         `}</style>
         <SideDecor />
         <div style={{ maxWidth: '680px', margin: '0 auto', padding: '3rem 1.5rem 6rem' }}>
@@ -389,12 +377,9 @@ export default function MLBlog() {
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Courier Prime', 'Courier New', Courier, monospace; }
         .post-link:hover .post-title { text-decoration: underline; }
-        .nav-link { background: none; border: none; cursor: pointer; font-size: 15px; color: #1a1a1a; padding: 0; font-family: inherit; }
-        .nav-link:hover { text-decoration: underline; }
-        .nav-link.active { text-decoration: underline; }
         input::placeholder { color: #9ca3af; }
         input:focus { outline: none; }
-        a { color: #1a1a1a; }
+        a { color: #1a1a1a; text-decoration-skip-ink: none; }
       `}</style>
 
       <div style={{ maxWidth: '700px', margin: '0 auto', padding: '4rem 1.5rem 6rem', fontFamily: "'Courier Prime', 'Courier New', Courier, monospace" }}>
@@ -402,23 +387,17 @@ export default function MLBlog() {
         {/* HEADER */}
         <header style={{ marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
-            {/* Avatar placeholder — swap for <img> when you have a real photo */}
-            <div style={{
-              width: '52px', height: '52px', borderRadius: '50%', flexShrink: 0,
-              background: '#e5e7eb', border: '1.5px solid #9ca3af',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '13px', fontWeight: 700, color: '#6b7280', letterSpacing: '0.05em',
-            }}>
-              NM
-            </div>
+            <img
+              src="/src/assets/profile.jpeg"
+              alt="Nikhil Modha"
+              style={{ width: '52px', height: '52px', borderRadius: '50%', flexShrink: 0, objectFit: 'cover', border: '1.5px solid #9ca3af' }}
+            />
             <h1 style={{ fontSize: '28px', fontWeight: 700, margin: 0, fontFamily: 'inherit' }}>
               Nikhil Modha
             </h1>
           </div>
           <nav style={{ display: 'flex', alignItems: 'center', fontSize: '15px', flexWrap: 'wrap' }}>
             <a href="mailto:nikhil.modha21@gmail.com">email</a>
-            <span style={{ color: '#9ca3af', margin: '0 0.5rem' }}>|</span>
-            <a href="https://github.com/nik8482" target="_blank" rel="noopener noreferrer">github</a>
             <span style={{ color: '#9ca3af', margin: '0 0.5rem' }}>|</span>
             <a href="https://www.linkedin.com/in/nikhil-modha-7aa604119/" target="_blank" rel="noopener noreferrer">linkedin</a>
           </nav>
@@ -429,21 +408,8 @@ export default function MLBlog() {
           ML engineer writing about machine learning from first principles — inference, fundamentals, safety, and the occasional detour.
         </p>
 
-        {/* FILTER */}
-        <div style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.75rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0', fontSize: '15px' }}>
-            {categories.map((cat, idx) => (
-              <React.Fragment key={cat.id}>
-                {idx > 0 && <span style={{ color: '#9ca3af', margin: '0 0.6rem' }}>|</span>}
-                <button
-                  className={`nav-link${selectedCategory === cat.id ? ' active' : ''}`}
-                  onClick={() => setSelectedCategory(cat.id)}
-                >
-                  {cat.name}
-                </button>
-              </React.Fragment>
-            ))}
-          </div>
+        {/* SEARCH */}
+        <div style={{ marginBottom: '1.5rem' }}>
           <input
             type="text"
             placeholder="search"

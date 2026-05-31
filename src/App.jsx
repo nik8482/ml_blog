@@ -460,11 +460,6 @@ export default function MLBlog() {
                       {formatDate(post.date)}
                     </span>
                     <span className="post-title" style={{ borderBottom: '1px solid #1a1a1a' }}>{post.title}</span>
-                    {post.difficulty && (
-                      <span style={{ fontSize: '12px', color: difficultyColor[post.difficulty], fontFamily: '"JetBrains Mono", monospace', flexShrink: 0 }}>
-                        {post.difficulty}
-                      </span>
-                    )}
                   </button>
                 </li>
               ))}

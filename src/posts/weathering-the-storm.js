@@ -1,4 +1,4 @@
-import thunderstorm from '../assets/thunderstorm.jpg';
+import thunderstorm from '../assets/thunderstorm.JPG';
 
 export default {
   id: 5,

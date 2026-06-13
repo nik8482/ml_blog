@@ -415,7 +415,7 @@ export default function MLBlog() {
 
         {/* BIO */}
         <p style={{ fontSize: '15px', lineHeight: 1.7, color: '#374151', marginBottom: '1.75rem', fontFamily: 'inherit' }}>
-          I'm a Senior ML Engineer who works closely with inference systems - I use this blog as a scratchpad of my thoughts about wider impacts of technology on the world.
+          I'm a Senior ML Engineer who works closely with inference systems - I use this blog as a scratchpad of my thoughts.
         </p>
 
         {/* SEARCH */}

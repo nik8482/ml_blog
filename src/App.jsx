@@ -6,18 +6,15 @@ import profilePhoto from './assets/profile.jpeg';
 import artImage from './assets/art.jpg';
 
 // ============ DESIGN TOKENS ============
-// Values resolve to CSS variables so light/dark can swap without touching JS.
 const c = {
-  bg: 'var(--bg)',
-  text: 'var(--text)',
-  muted: 'var(--muted)',
-  faint: 'var(--faint)',
-  border: 'var(--border)',
-  hairline: 'var(--hairline)',
-  accent: 'var(--accent)',
-  codeBg: 'var(--code-bg)',
-  body: 'var(--body)',
-  codeText: 'var(--code-text)',
+  bg: '#ffffff',
+  text: '#18181b',
+  muted: '#71717a',
+  faint: '#a1a1aa',
+  border: '#e4e4e7',
+  hairline: '#f4f4f5',
+  accent: '#2563eb',
+  codeBg: '#fafafa',
 };
 const sans = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
 const mono = "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace";
@@ -80,7 +77,7 @@ function CodeBlock({ code, lang = 'python' }) {
         if (current) parts.push({ type: 'text', text: current });
         parts.push({ type: 'comment', text: line.slice(i) });
         return parts;
-      } else if (/[\s().,:[\]{}=+\-*/<>!]/.test(ch)) {
+      } else if (/[\s().,:\[\]{}=+\-*/<>!]/.test(ch)) {
         if (current) {
           if (keywords.includes(current)) parts.push({ type: 'keyword', text: current });
           else if (/^\d/.test(current)) parts.push({ type: 'number', text: current });
@@ -102,8 +99,8 @@ function CodeBlock({ code, lang = 'python' }) {
     string: '#16a34a',
     comment: '#a1a1aa',
     number: '#ea580c',
-    punct: '#8a8a93',
-    text: c.codeText,
+    punct: '#52525b',
+    text: '#27272a',
   };
 
   return (
@@ -160,49 +157,12 @@ function renderInline(text) {
   return parts;
 }
 
-// ============ THEME TOGGLE ============
-function ThemeToggle({ theme, setTheme }) {
-  return (
-    <button
-      onClick={() => setTheme(t => (t === 'dark' ? 'light' : 'dark'))}
-      aria-label="Toggle dark mode"
-      className="theme-toggle"
-      style={{
-        background: 'none',
-        border: `1px solid ${c.border}`,
-        borderRadius: '8px',
-        cursor: 'pointer',
-        width: '34px',
-        height: '34px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontSize: '15px',
-        color: c.muted,
-        flexShrink: 0,
-        transition: 'border-color 0.15s ease, color 0.15s ease',
-      }}
-    >
-      {theme === 'dark' ? '☀' : '☾'}
-    </button>
-  );
-}
-
 // ============ MAIN COMPONENT ============
 export default function MLBlog() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPost, setSelectedPost] = useState(null);
-  const [theme, setTheme] = useState(() => {
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) return localStorage.getItem('theme');
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
-    return 'light';
-  });
 
   useEffect(() => { window.scrollTo(0, 0); }, [selectedPost]);
-  useEffect(() => {
-    localStorage.setItem('theme', theme);
-    document.body.style.background = theme === 'dark' ? '#0e0e10' : '#ffffff';
-  }, [theme]);
 
   const filteredPosts = blogPosts.filter(post =>
     post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -218,19 +178,9 @@ export default function MLBlog() {
 
   const globalStyles = `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
-    .app {
-      --bg: #ffffff; --text: #18181b; --muted: #71717a; --faint: #a1a1aa;
-      --border: #e4e4e7; --hairline: #f4f4f5; --accent: #2563eb;
-      --code-bg: #fafafa; --body: #3f3f46; --code-text: #27272a;
-    }
-    .app[data-theme="dark"] {
-      --bg: #0e0e10; --text: #f4f4f5; --muted: #a1a1aa; --faint: #6b6b73;
-      --border: #2a2a2e; --hairline: #1b1b1e; --accent: #60a5fa;
-      --code-bg: #161618; --body: #c8c8cf; --code-text: #e4e4e7;
-    }
     * { box-sizing: border-box; }
     body { margin: 0; }
-    ::selection { background: ${c.accent}; color: #fff; }
+    ::selection { background: #dbeafe; }
     a { color: ${c.text}; text-decoration: none; }
     .link-u { border-bottom: 1px solid ${c.border}; transition: border-color 0.15s ease; }
     .link-u:hover { border-color: ${c.text}; }
@@ -239,7 +189,6 @@ export default function MLBlog() {
     input::placeholder { color: ${c.faint}; }
     input:focus { outline: none; }
     .back-btn:hover { color: ${c.text}; }
-    .theme-toggle:hover { border-color: ${c.text}; color: ${c.text}; }
   `;
 
   // ==================== POST VIEW ====================
@@ -272,7 +221,7 @@ export default function MLBlog() {
                 {body.map((row, ri) => (
                   <tr key={ri}>
                     {parseCells(row).map((cell, ci) => (
-                      <td key={ci} style={{ padding: '8px 16px', borderBottom: `1px solid ${c.border}`, color: c.body }}>
+                      <td key={ci} style={{ padding: '8px 16px', borderBottom: `1px solid ${c.border}`, color: '#3f3f46' }}>
                         {renderInline(cell)}
                       </td>
                     ))}
@@ -318,7 +267,7 @@ export default function MLBlog() {
           );
         } else if (line.startsWith('- ')) {
           elements.push(
-            <li key={i} style={{ fontSize: '16.5px', lineHeight: 1.75, color: c.body, marginLeft: '1.25rem', marginBottom: '0.5rem' }}>
+            <li key={i} style={{ fontSize: '16.5px', lineHeight: 1.75, color: '#3f3f46', marginLeft: '1.25rem', marginBottom: '0.5rem' }}>
               {renderInline(line.replace(/^-\s+/, ''))}
             </li>
           );
@@ -326,7 +275,7 @@ export default function MLBlog() {
           return;
         } else {
           elements.push(
-            <p key={i} style={{ fontSize: '16.5px', lineHeight: 1.75, color: c.body, marginBottom: '1.25rem' }}>
+            <p key={i} style={{ fontSize: '16.5px', lineHeight: 1.75, color: '#3f3f46', marginBottom: '1.25rem' }}>
               {renderInline(line)}
             </p>
           );
@@ -337,20 +286,17 @@ export default function MLBlog() {
     };
 
     return (
-      <div className="app" data-theme={theme} style={{ minHeight: '100vh', background: c.bg, color: c.text, fontFamily: sans, WebkitFontSmoothing: 'antialiased' }}>
+      <div style={{ minHeight: '100vh', background: c.bg, color: c.text, fontFamily: sans, WebkitFontSmoothing: 'antialiased' }}>
         <style>{globalStyles}</style>
         <SideDecor />
         <div style={{ maxWidth: '660px', margin: '0 auto', padding: '3.5rem 1.5rem 7rem', position: 'relative', zIndex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '3rem' }}>
-            <button
-              onClick={() => setSelectedPost(null)}
-              className="back-btn"
-              style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: c.muted, padding: 0, fontFamily: 'inherit', transition: 'color 0.15s ease' }}
-            >
-              ← back
-            </button>
-            <ThemeToggle theme={theme} setTheme={setTheme} />
-          </div>
+          <button
+            onClick={() => setSelectedPost(null)}
+            className="back-btn"
+            style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: c.muted, padding: 0, marginBottom: '3rem', fontFamily: 'inherit', transition: 'color 0.15s ease' }}
+          >
+            ← back
+          </button>
 
           <header style={{ marginBottom: '0.5rem' }}>
             <div style={{ fontSize: '13px', color: c.faint, marginBottom: '1rem', fontFamily: mono, display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
@@ -387,7 +333,7 @@ export default function MLBlog() {
 
   // ==================== INDEX VIEW ====================
   return (
-    <div className="app" data-theme={theme} style={{ minHeight: '100vh', background: c.bg, color: c.text, fontFamily: sans, WebkitFontSmoothing: 'antialiased' }}>
+    <div style={{ minHeight: '100vh', background: c.bg, color: c.text, fontFamily: sans, WebkitFontSmoothing: 'antialiased' }}>
       <style>{globalStyles}</style>
       <SideDecor />
 
@@ -411,13 +357,10 @@ export default function MLBlog() {
                 <a className="link-u" href="https://www.linkedin.com/in/nikhil-modha-7aa604119/" target="_blank" rel="noopener noreferrer">linkedin</a>
               </nav>
             </div>
-            <div style={{ marginLeft: 'auto' }}>
-              <ThemeToggle theme={theme} setTheme={setTheme} />
-            </div>
           </div>
 
           {/* BIO */}
-          <p style={{ fontSize: '16px', lineHeight: 1.7, color: c.body, margin: 0 }}>
+          <p style={{ fontSize: '16px', lineHeight: 1.7, color: '#3f3f46', margin: 0 }}>
             I'm a Senior ML Engineer who works closely with inference systems. I use this blog as a scratchpad of my thoughts.
           </p>
         </header>

@@ -7,11 +7,11 @@ html, body, #root {
   padding: 0;
   width: 100%;
   min-height: 100vh;
-  background: #050810;
+  background: #ffffff;
 }
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

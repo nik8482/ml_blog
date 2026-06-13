@@ -3,7 +3,7 @@ import { blogPosts } from './posts';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
 import profilePhoto from './assets/profile.jpeg';
-import artImage from './assets/art.png';
+import artImage from './assets/art.jpg';
 
 // ============ DESIGN TOKENS ============
 const c = {
@@ -24,7 +24,7 @@ function SideDecor() {
   const panelBase = {
     position: 'fixed',
     top: 0,
-    width: '150px',
+    width: '165px',
     height: '100vh',
     backgroundImage: `url(${artImage})`,
     backgroundSize: 'cover',
@@ -32,8 +32,6 @@ function SideDecor() {
     pointerEvents: 'none',
     zIndex: 0,
   };
-  // soft fade from the artwork into the white page
-  const fadeLeft = 'linear-gradient(to right, #000 60%, transparent 100%)';
 
   return (
     <>
@@ -44,8 +42,7 @@ function SideDecor() {
           ...panelBase,
           left: 0,
           backgroundPosition: 'left center',
-          WebkitMaskImage: fadeLeft,
-          maskImage: fadeLeft,
+          borderRight: '2px solid #18181b',
         }}
       />
       <div
@@ -54,9 +51,7 @@ function SideDecor() {
           ...panelBase,
           right: 0,
           backgroundPosition: 'right center',
-          transform: 'scaleX(-1)',
-          WebkitMaskImage: fadeLeft,
-          maskImage: fadeLeft,
+          borderLeft: '2px solid #18181b',
         }}
       />
     </>

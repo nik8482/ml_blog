@@ -3,6 +3,7 @@ import { blogPosts } from './posts';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
 import profilePhoto from './assets/profile.jpeg';
+import artImage from './assets/art.png';
 
 // ============ DESIGN TOKENS ============
 const c = {
@@ -20,80 +21,44 @@ const mono = "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace";
 
 // ============ GOLD & BLACK MARBLE SIDEBARS ============
 function SideDecor() {
-  // One marble panel; mirrored for the right edge.
-  const Panel = ({ side }) => {
-    const gid = `gold-${side}`;
-    const sid = `sheen-${side}`;
-    return (
-      <svg
-        className="side-decor"
-        viewBox="0 0 140 900"
-        preserveAspectRatio="xMidYMid slice"
-        style={{
-          position: 'fixed',
-          top: 0,
-          [side]: 0,
-          width: '128px',
-          height: '100vh',
-          pointerEvents: 'none',
-          zIndex: 0,
-          transform: side === 'right' ? 'scaleX(-1)' : 'none',
-        }}
-      >
-        <defs>
-          <linearGradient id={gid} x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#7a5a12" />
-            <stop offset="35%" stopColor="#d4af37" />
-            <stop offset="55%" stopColor="#f7e7a8" />
-            <stop offset="75%" stopColor="#c9971f" />
-            <stop offset="100%" stopColor="#8a6512" />
-          </linearGradient>
-          {/* dark marble band fading toward the white page */}
-          <linearGradient id={`bg-${side}`} x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#0b0b0d" />
-            <stop offset="55%" stopColor="#141417" />
-            <stop offset="100%" stopColor="#141417" stopOpacity="0" />
-          </linearGradient>
-          <radialGradient id={sid} cx="0.3" cy="0.2" r="0.9">
-            <stop offset="0%" stopColor="#f7e7a8" stopOpacity="0.55" />
-            <stop offset="100%" stopColor="#f7e7a8" stopOpacity="0" />
-          </radialGradient>
-        </defs>
-
-        {/* dark base */}
-        <rect x="0" y="0" width="140" height="900" fill={`url(#bg-${side})`} />
-
-        {/* flowing gold veins */}
-        <g fill="none" stroke={`url(#${gid})`} strokeLinecap="round">
-          <path d="M 18 -20 C 70 120, -10 230, 40 360 C 80 470, 0 560, 46 700 C 78 800, 30 880, 52 940" strokeWidth="9" opacity="0.95" />
-          <path d="M 60 -20 C 20 110, 95 210, 50 330 C 14 440, 90 540, 44 680 C 12 790, 80 860, 38 940" strokeWidth="5" opacity="0.8" />
-          <path d="M 100 -20 C 60 140, 120 250, 78 380 C 44 500, 110 600, 70 740 C 40 840, 96 900, 84 940" strokeWidth="3" opacity="0.65" />
-          <path d="M 6 40 C 50 160, -8 280, 30 420 C 60 540, 4 660, 34 820" strokeWidth="2" opacity="0.5" />
-        </g>
-
-        {/* soft gold sheen pooling near veins */}
-        <ellipse cx="35" cy="170" rx="42" ry="80" fill={`url(#${sid})`} />
-        <ellipse cx="48" cy="560" rx="48" ry="100" fill={`url(#${sid})`} />
-
-        {/* gold glitter specks */}
-        <g fill="#f3dd91">
-          {[
-            [22, 90], [40, 150], [14, 250], [52, 330], [30, 410], [58, 470],
-            [20, 540], [46, 620], [34, 700], [60, 770], [26, 840], [44, 200],
-            [38, 360], [18, 500], [54, 660], [28, 880],
-          ].map(([x, y], i) => (
-            <circle key={i} cx={x} cy={y} r={i % 3 === 0 ? 1.8 : 1.1} opacity={0.5 + (i % 4) * 0.12} />
-          ))}
-        </g>
-      </svg>
-    );
+  const panelBase = {
+    position: 'fixed',
+    top: 0,
+    width: '150px',
+    height: '100vh',
+    backgroundImage: `url(${artImage})`,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    pointerEvents: 'none',
+    zIndex: 0,
   };
+  // soft fade from the artwork into the white page
+  const fadeLeft = 'linear-gradient(to right, #000 60%, transparent 100%)';
 
   return (
     <>
       <style>{`@media (max-width: 1180px) { .side-decor { display: none !important; } }`}</style>
-      <Panel side="left" />
-      <Panel side="right" />
+      <div
+        className="side-decor"
+        style={{
+          ...panelBase,
+          left: 0,
+          backgroundPosition: 'left center',
+          WebkitMaskImage: fadeLeft,
+          maskImage: fadeLeft,
+        }}
+      />
+      <div
+        className="side-decor"
+        style={{
+          ...panelBase,
+          right: 0,
+          backgroundPosition: 'right center',
+          transform: 'scaleX(-1)',
+          WebkitMaskImage: fadeLeft,
+          maskImage: fadeLeft,
+        }}
+      />
     </>
   );
 }

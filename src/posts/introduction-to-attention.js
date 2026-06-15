@@ -4,7 +4,7 @@ import catPainting from './../assets/cat-painting.jpg';
 export default {
     id: 2,
     slug: 'attention',
-    title: 'Introduction to Attention',
+    title: 'Attention Basics',
     category: 'fundamentals',
     date: '2026-04-20',
     excerpt: 'Every modern day LLM depends on Attention, but how does it actually work?',

@@ -1,4 +1,5 @@
 import content from './content/quantisation.md?raw';
+import thunderstorm from './../assets/thunderstorm.JPG';
 
 export default {
     id: 3,
@@ -9,5 +10,5 @@ export default {
     excerpt: 'How to fit a 70GB model on a single GPU',
     readTime: '7 min',
     difficulty: 'beginner',
-    content,
+    content: `![thunderstorm](${thunderstorm} "Oil painting of a thunderstorm brewing")\n\n${content}`,
 };

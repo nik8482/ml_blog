@@ -7,7 +7,7 @@
   "posts": [
     {
       "slug": "attention",
-      "title": "Introduction to Attention",
+      "title": "Attention Basics",
       "description": "Every modern day LLM depends on Attention, but how does it actually work?",
       "image": "/og/attention.jpg"
     },

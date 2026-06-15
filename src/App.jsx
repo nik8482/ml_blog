@@ -7,17 +7,19 @@ import artImage from './assets/art.jpg';
 
 // ============ DESIGN TOKENS ============
 const c = {
-  bg: '#ffffff',
-  text: '#18181b',
-  muted: '#71717a',
-  faint: '#a1a1aa',
-  border: '#e4e4e7',
-  hairline: '#f4f4f5',
-  accent: '#2563eb',
-  codeBg: '#fafafa',
+  bg: '#f6f1e7',        // warm paper
+  text: '#26221b',      // warm near-black ink
+  muted: '#6f685c',
+  faint: '#a59c89',
+  border: '#e0d8c6',
+  hairline: '#ece4d4',
+  accent: '#9a6a2f',    // muted sepia/bronze
+  codeBg: '#efe8d8',
+  body: '#3c382f',
 };
 const sans = "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif";
 const mono = "'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace";
+const typewriter = "'Courier Prime', 'Courier New', Courier, monospace";
 
 // ============ GOLD & BLACK MARBLE SIDEBARS ============
 function SideDecor() {
@@ -77,7 +79,7 @@ function CodeBlock({ code, lang = 'python' }) {
         if (current) parts.push({ type: 'text', text: current });
         parts.push({ type: 'comment', text: line.slice(i) });
         return parts;
-      } else if (/[\s().,:\[\]{}=+\-*/<>!]/.test(ch)) {
+      } else if (/[\s().,:[\]{}=+\-*/<>!]/.test(ch)) {
         if (current) {
           if (keywords.includes(current)) parts.push({ type: 'keyword', text: current });
           else if (/^\d/.test(current)) parts.push({ type: 'number', text: current });
@@ -177,10 +179,10 @@ export default function MLBlog() {
   const difficultyColor = { beginner: '#16a34a', intermediate: '#ca8a04', advanced: '#dc2626' };
 
   const globalStyles = `
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
     * { box-sizing: border-box; }
     body { margin: 0; }
-    ::selection { background: #dbeafe; }
+    ::selection { background: #e6d9bf; }
     a { color: ${c.text}; text-decoration: none; }
     .link-u { border-bottom: 1px solid ${c.border}; transition: border-color 0.15s ease; }
     .link-u:hover { border-color: ${c.text}; }
@@ -221,7 +223,7 @@ export default function MLBlog() {
                 {body.map((row, ri) => (
                   <tr key={ri}>
                     {parseCells(row).map((cell, ci) => (
-                      <td key={ci} style={{ padding: '8px 16px', borderBottom: `1px solid ${c.border}`, color: '#3f3f46' }}>
+                      <td key={ci} style={{ padding: '8px 16px', borderBottom: `1px solid ${c.border}`, color: c.body }}>
                         {renderInline(cell)}
                       </td>
                     ))}
@@ -267,7 +269,7 @@ export default function MLBlog() {
           );
         } else if (line.startsWith('- ')) {
           elements.push(
-            <li key={i} style={{ fontSize: '16.5px', lineHeight: 1.75, color: '#3f3f46', marginLeft: '1.25rem', marginBottom: '0.5rem' }}>
+            <li key={i} style={{ fontSize: '16.5px', lineHeight: 1.75, color: c.body, marginLeft: '1.25rem', marginBottom: '0.5rem' }}>
               {renderInline(line.replace(/^-\s+/, ''))}
             </li>
           );
@@ -275,7 +277,7 @@ export default function MLBlog() {
           return;
         } else {
           elements.push(
-            <p key={i} style={{ fontSize: '16.5px', lineHeight: 1.75, color: '#3f3f46', marginBottom: '1.25rem' }}>
+            <p key={i} style={{ fontSize: '16.5px', lineHeight: 1.75, color: c.body, marginBottom: '1.25rem' }}>
               {renderInline(line)}
             </p>
           );
@@ -286,7 +288,7 @@ export default function MLBlog() {
     };
 
     return (
-      <div style={{ minHeight: '100vh', background: c.bg, color: c.text, fontFamily: sans, WebkitFontSmoothing: 'antialiased' }}>
+      <div style={{ minHeight: '100vh', background: c.bg, color: c.text, fontFamily: typewriter, WebkitFontSmoothing: 'antialiased' }}>
         <style>{globalStyles}</style>
         <SideDecor />
         <div style={{ maxWidth: '660px', margin: '0 auto', padding: '3.5rem 1.5rem 7rem', position: 'relative', zIndex: 1 }}>
@@ -305,7 +307,7 @@ export default function MLBlog() {
               {post.readTime && <span>· {post.readTime}</span>}
               {post.difficulty && <span style={{ color: difficultyColor[post.difficulty] }}>· {post.difficulty}</span>}
             </div>
-            <h1 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: 700, letterSpacing: '-0.02em', lineHeight: 1.2, margin: '0 0 1rem', color: c.text }}>
+            <h1 style={{ fontSize: 'clamp(26px, 3.6vw, 34px)', fontWeight: 700, lineHeight: 1.25, margin: '0 0 1rem', color: c.text }}>
               {post.title}
             </h1>
             {post.paper && (
@@ -360,7 +362,7 @@ export default function MLBlog() {
           </div>
 
           {/* BIO */}
-          <p style={{ fontSize: '16px', lineHeight: 1.7, color: '#3f3f46', margin: 0 }}>
+          <p style={{ fontSize: '16px', lineHeight: 1.7, color: c.body, margin: 0 }}>
             I'm a Senior ML Engineer who works closely with inference systems. I use this blog as a scratchpad of my thoughts.
           </p>
         </header>

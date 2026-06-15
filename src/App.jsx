@@ -360,7 +360,7 @@ export default function MLBlog() {
 
           {/* BIO */}
           <p style={{ fontSize: '16px', lineHeight: 1.7, color: c.body, margin: 0 }}>
-            I'm a Senior ML Engineer who works closely with inference systems. I use this blog as a scratchpad of my thoughts.
+            Senior ML Engineer. I use this blog as a scratchpad of my thoughts.
           </p>
         </header>
 

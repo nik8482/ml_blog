@@ -176,8 +176,6 @@ export default function MLBlog() {
     return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
   };
 
-  const difficultyColor = { beginner: '#16a34a', intermediate: '#ca8a04', advanced: '#dc2626' };
-
   const globalStyles = `
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap');
     * { box-sizing: border-box; }
@@ -305,7 +303,6 @@ export default function MLBlog() {
               <span>{formatDate(post.date)}</span>
               {post.category && <span>· {post.category}</span>}
               {post.readTime && <span>· {post.readTime}</span>}
-              {post.difficulty && <span style={{ color: difficultyColor[post.difficulty] }}>· {post.difficulty}</span>}
             </div>
             <h1 style={{ fontSize: 'clamp(26px, 3.6vw, 34px)', fontWeight: 700, lineHeight: 1.25, margin: '0 0 1rem', color: c.text }}>
               {post.title}

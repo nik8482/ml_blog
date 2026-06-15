@@ -2,6 +2,7 @@ import content from './content/quantisation.md?raw';
 
 export default {
     id: 3,
+    slug: 'quantisation',
     title: 'Introduction to Quantisation',
     category: 'inference',
     date: '2026-04-23',

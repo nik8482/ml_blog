@@ -7,9 +7,9 @@ But RNNs had one huge problem: long-term dependencies. As sequences got longer, 
 This core problem ultimately led to the development of the Attention mechanism.
 
 ## The Core Idea: Paying Attention to Context
-Attention was first introduced to the world in 2017, in the form of a paper called "Attention is all you need" by Viswani et al. This paper changed everything by ditching recurrence entirely. 
+Attention had been around for a long time however it was first made famous in 2017, in the form of a paper called "Attention is all you need" by Vaswani et al. This paper changed everything by ditching recurrence entirely. 
 
-The premise of Attention is quite simple; given any token in a sentence, we can compute an "Attention Score" for each token preceding it. These scores are then used to weight our final context vectors such that our vectors have an indication of token revelancy which is used to weight relevancy to our scores. 
+The premise of Attention is quite simple; given any token in a sentence, we can compute an "Attention Score" for each token preceding it. These scores are then used to weight our final context vectors such that our vectors have an indication of token relevancy which is used as a weight to our final scores. 
 
 Each token in a given sentence has three different vectors which allow us to calculate attention; Key, Value and Query (like how a database works). These vectors are formed by taking the embedding vector of a token and doing the matrix multiplication of the embedding with a trainable weight matrix which get tuned during pretraining. 
 

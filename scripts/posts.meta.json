@@ -1,0 +1,21 @@
+{
+  "siteUrl": "https://nikhilmodha.dev",
+  "siteName": "Nikhil Modha",
+  "defaultTitle": "Nikhil Modha",
+  "defaultDescription": "Senior ML Engineer. I use this blog as a scratchpad of my thoughts.",
+  "defaultImage": "/og/default.jpg",
+  "posts": [
+    {
+      "slug": "attention",
+      "title": "Introduction to Attention",
+      "description": "Every modern day LLM depends on Attention, but how does it actually work?",
+      "image": "/og/attention.jpg"
+    },
+    {
+      "slug": "quantisation",
+      "title": "Introduction to Quantisation",
+      "description": "How to fit a 70GB model on a single GPU",
+      "image": "/og/quantisation.jpg"
+    }
+  ]
+}

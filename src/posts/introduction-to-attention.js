@@ -1,14 +1,15 @@
 import content from './content/introduction-to-attention.md?raw';
-import thunderstorm from '../assets/thunderstorm.JPG';
+import catPainting from './../assets/cat-painting.jpg';
 
 export default {
     id: 2,
+    slug: 'attention',
     title: 'Introduction to Attention',
     category: 'fundamentals',
     date: '2026-04-20',
     excerpt: 'Every modern day LLM depends on Attention, but how does it actually work?',
     readTime: '10 min',
     difficulty: 'beginner',
-    content: `![thunderstorm](${thunderstorm} "Oil painting of a thunderstorm brewing")\n\n${content}`,
+    content: `![cat painting](${catPainting} "Oil painting of a cat beneath blossoms")\n\n${content}`,
 };
   

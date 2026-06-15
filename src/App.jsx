@@ -164,7 +164,34 @@ export default function MLBlog() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedPost, setSelectedPost] = useState(null);
 
-  useEffect(() => { window.scrollTo(0, 0); }, [selectedPost]);
+  // Keep the URL in sync with the open post so each post has its own shareable
+  // link (/<slug>) — the prerender step bakes per-post OG tags into those paths.
+  useEffect(() => {
+    const syncFromPath = () => {
+      const slug = window.location.pathname.replace(/^\/+|\/+$/g, '');
+      const post = blogPosts.find(p => p.slug === slug);
+      setSelectedPost(post ? post.id : null);
+    };
+    syncFromPath();
+    window.addEventListener('popstate', syncFromPath);
+    return () => window.removeEventListener('popstate', syncFromPath);
+  }, []);
+
+  const openPost = (id) => {
+    const post = blogPosts.find(p => p.id === id);
+    window.history.pushState({}, '', post?.slug ? `/${post.slug}` : '/');
+    setSelectedPost(id);
+  };
+  const goHome = () => {
+    window.history.pushState({}, '', '/');
+    setSelectedPost(null);
+  };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    const post = blogPosts.find(p => p.id === selectedPost);
+    document.title = post ? `${post.title} · Nikhil Modha` : 'Nikhil Modha';
+  }, [selectedPost]);
 
   const filteredPosts = blogPosts.filter(post =>
     post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -291,7 +318,7 @@ export default function MLBlog() {
         <SideDecor />
         <div style={{ maxWidth: '660px', margin: '0 auto', padding: '3.5rem 1.5rem 7rem', position: 'relative', zIndex: 1 }}>
           <button
-            onClick={() => setSelectedPost(null)}
+            onClick={goHome}
             className="back-btn"
             style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: c.muted, padding: 0, marginBottom: '3rem', fontFamily: 'inherit', transition: 'color 0.15s ease' }}
           >
@@ -319,7 +346,7 @@ export default function MLBlog() {
           <hr style={{ border: 'none', borderTop: `1px solid ${c.border}`, margin: '3.5rem 0 2rem' }} />
 
           <button
-            onClick={() => setSelectedPost(null)}
+            onClick={goHome}
             className="back-btn"
             style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', color: c.muted, padding: 0, fontFamily: 'inherit', transition: 'color 0.15s ease' }}
           >
@@ -396,7 +423,7 @@ export default function MLBlog() {
               {filteredPosts.map((post) => (
                 <li key={post.id} style={{ borderBottom: `1px solid ${c.hairline}` }}>
                   <button
-                    onClick={() => setSelectedPost(post.id)}
+                    onClick={() => openPost(post.id)}
                     className="post-row"
                     style={{
                       background: 'none',

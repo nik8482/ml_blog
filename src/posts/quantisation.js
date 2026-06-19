@@ -8,7 +8,6 @@ export default {
     category: 'inference',
     date: '2026-04-23',
     excerpt: 'How to fit a 70GB model on a single GPU',
-    readTime: '7 min',
-    difficulty: 'beginner',
+    readTime: '11 min',
     content: `![thunderstorm](${thunderstorm} "Oil painting of a thunderstorm brewing")\n\n${content}`,
 };
